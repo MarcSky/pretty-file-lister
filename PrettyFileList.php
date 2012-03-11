@@ -3,7 +3,7 @@
    Plugin Name: Pretty file list
    Plugin URI: http://www.smartredfox.com/prettylist
    Description: A plugin that lists files attached to the current post/page.
-   Version: 0.1
+   Version: 0.2
    Author: James Botham
    Author URI: http://www.smartredfox.com
    License: GPL2
@@ -20,7 +20,7 @@ class PrettyFileListPlugin_Class{
 		
 		if(!is_admin())
 		{
-			add_shortcode('prettyfilelist', array($this, 'prettyfilelist_shortcode'));			
+			add_shortcode('prettyfilelist', array($this, 'prettyfilelist_shortcode'));
 		}
     }
 	
@@ -50,6 +50,8 @@ class PrettyFileListPlugin_Class{
 			add_action('admin_menu', array($this,'srf_prettylist_admin_menu'));
 			//Attach save event for Settings page
 			add_filter( 'attachment_fields_to_save', array($this,'srf_attachment_field_prettylist_save'), 10, 2 );				
+			//Add shortcode button
+			add_action('init', array($this,'add_button'));
 		}
 	}  
 	  
@@ -87,22 +89,35 @@ class PrettyFileListPlugin_Class{
 		
 		return $html;
 	}
-  
+
 	//Add Stylesheet
 	public function prettyfilelist_stylesheets()
 	{
 		//Get user selected stylesheet if any
 		$options['stylesheet_to_use'] = get_option('stylesheet_to_use'); 
+		$option = $options['stylesheet_to_use'];
+		$stylesheet_url = PRETTY_FILE_LIST_URL . 'styles/prettylinks.css';
 
-		$stylesheet_url = PRETTY_FILE_LIST_URL . '/styles/prettylist.css';
-
+		//Add our prettylist stylesheet
 		if($options['stylesheet_to_use'] != ""){
-			//Add our prettylist stylesheet
-			$stylesheet_url = PRETTY_FILE_LIST_URL . '/styles/' . $options['stylesheet_to_use'];	
+			//See if the selected style has a hash in it (this means it's an alt style)
+			if(strpos($options['stylesheet_to_use'],'#') > 0){
+				//See if the file exists in the template directory first
+				//if(!file_exists($stylesheet_url)){
+				$cleanOption = str_replace("#", "", $option);
+				$stylesheet_url = (get_bloginfo('template_url') . '/prettystyles/' . $cleanOption);
+				//}
+			}
+			else{
+				//If not, fallback to plugin version
+				$stylesheet_url = (PRETTY_FILE_LIST_URL . 'styles/' . $options['stylesheet_to_use']);
+			}
 		}
 		
+		//echo $stylesheet_url;
+		
 		wp_register_style('srfprettylistStyleSheets', $stylesheet_url);
-		wp_enqueue_style( 'srfprettylistStyleSheets');	
+		wp_enqueue_style( 'srfprettylistStyleSheets');
 	}  
 	
 	private function TypeToMime($typesToConvert){
@@ -215,7 +230,7 @@ class PrettyFileListPlugin_Class{
 	**********************/
 	function srf_prettylist_admin_scripts()
 	{
-	  $params = array('pluginUrl' => PRETTY_FILE_LIST_URL);  
+	  $params = array('pluginUrl' => PRETTY_FILE_LIST_URL,'altPluginUrl' => get_bloginfo('template_directory') . '/prettystyles/');
 	  wp_register_script('prettylistpreviewer', PRETTY_FILE_LIST_URL . '/js/style_previewer.js');
 	  wp_localize_script('prettylistpreviewer', 'prettylistScriptParams', $params );
 	  wp_enqueue_script('prettylistpreviewer' );	 
@@ -244,17 +259,19 @@ class PrettyFileListPlugin_Class{
 		$message = '<div id="message" class="updated fade"><p><strong>Options Saved</strong></p></div>';  
 	  }
 
-	  //path to directory to scan
+	  //Path to directories to scan
 	  $directory = PRETTY_FILE_LIST_PATH . '/styles/';
+	  $altDirectory = get_template_directory() . '/prettystyles/';
 	  
 	  //get all css files with a .css extension.
 	  $styles = glob($directory . "*.css");
+	  $altStyles = glob($altDirectory . "*.css");  
 	  
 	  //Get our options
 	  $options['stylesheet_to_use'] = get_option('stylesheet_to_use');
 
-	  //Display options form
-	  echo '<div style="background-color:#eee;border:solid 1px #ccc;border-radius:3px;float:right;margin:20px;padding:10px;width:300px;">
+	//Display options form
+	echo '<div style="background-color:#eee;border:solid 1px #ccc;border-radius:3px;float:right;margin:20px;padding:10px;width:300px;">
 			<div style="background-color:#fff;border:solid 1px #ccc;float:right;">
 				<img src="http://www.smartredfox.com/wp-content/uploads/2012/02/All_styles-150x150.png" style="margin:5px;" />
 			</div>
@@ -264,7 +281,7 @@ class PrettyFileListPlugin_Class{
 			</div>
 			<div class="wrap">'.$message.
 		'<div id="icon-options-general" class="icon32"><br /></div>  
-		<h2>prettylist Settings</h2>  
+		<h2>Pretty file list Settings</h2>  
 	  
 		<form method="post" action="">  
 		<input type="hidden" name="action" value="update" />  
@@ -277,6 +294,10 @@ class PrettyFileListPlugin_Class{
 	  foreach($styles as $style)
 	  {
 		echo '<option value="' . basename($style) .'"' . (basename($style) == $options['stylesheet_to_use'] ? 'selected="selected"' : '')  . '>' . basename($style) . '</option>';
+	  }
+	  foreach($altStyles as $style)
+	  {
+		echo '<option value="' . basename($style) .'#"' . (basename($style) == $options['stylesheet_to_use'] ? 'selected="selected"' : '')  . '>' . basename($style) . ' (Custom)</option>';
 	  }
 	  
 	  echo '</select></p><p><input type="submit" class="button-primary" value="Save Changes" /></p>
@@ -300,6 +321,81 @@ class PrettyFileListPlugin_Class{
 	  //update_post_meta( $post['ID'], 'srf_prettylist-include', $attachment['srf_prettylist-include'] );  
 	  return $post;
 	}
+	
+	/*********************
+	ADD SHORTCODE BUTTON
+	**********************/	
+	
+    function add_button() {  
+       if ( current_user_can('edit_posts') &&  current_user_can('edit_pages') )  
+       {  
+         add_filter('mce_external_plugins', array($this,'add_plugin'));
+         add_filter('mce_buttons', array($this,'register_button'));
+       }  
+    }  
+	
+    function register_button($buttons) {  
+       array_push($buttons, "prettylist");  
+       return $buttons;  
+    }  
+	
+	function add_plugin($plugin_array) {  
+	   $plugin_array['prettylist'] = PRETTY_FILE_LIST_URL.'js/prettygen.js';  
+	   return $plugin_array;  
+	} 
+	
+	/*************************
+	UPGRADE FUNCTIONALITY TO SAVE STYLE PACK
+	**************************/
+	function hpt_copyr($source, $dest) 
+	{
+		// Check for symlinks
+		if (is_link($source)) { 
+			return symlink(readlink($source), $dest); 
+		}
+ 
+		// Simple copy for a file 
+		if (is_file($source)) {
+			return copy($source, $dest); 
+		} 
+
+		// Make destination directory
+		if (!is_dir($dest)) {
+			mkdir($dest);   
+		}
+ 
+		// Loop through the folder
+		$dir = dir($source);
+		while (false !== $entry = $dir->read()) {
+			// Skip pointers
+			if ($entry == '.' || $entry == '..') {
+				continue;
+			}
+
+			// Deep copy directories
+			$this->hpt_copyr("$source/$entry", "$dest/$entry");
+		}
+
+		// Clean up
+		$dir->close();
+		return true;
+	}
+	
+	function hpt_backup()
+	{
+			$from = PRETTY_FILE_LIST_PATH."styles/";
+			$to = WP_CONTENT_DIR."/uploads/prettystyles/"; 
+			$this->hpt_copyr($from, $to);
+	}
+	function hpt_recover()
+	{		
+			$from = WP_CONTENT_DIR."/uploads/prettystyles/";
+			$to = PRETTY_FILE_LIST_PATH."styles/";			
+			$this->hpt_copyr($from, $to);
+			if (is_dir($from)) {
+				rmdir($from);
+			}
+	}	
 }  
   
 //Engage.  
