@@ -40,7 +40,7 @@ jQuery(function(jQuery) {
 			//This will not always work.
 			newData = data.replace( new RegExp( '"../i', 'g' ), '"' + prettylistScriptParams.altPluginUrl + 'i' );		
 			newData = data.replace( new RegExp( '\\(../i', 'g' ),'(' +  prettylistScriptParams.altPluginUrl + 'i' );		
-			newData = data.replace( new RegExp( '.../../../plugins/pretty-file-lister/', 'g' ),'(' +  prettylistScriptParams.pluginUrl + '' );	
+			newData = data.replace( new RegExp( '.../../../plugins/pretty-file-links/', 'g' ),'(' +  prettylistScriptParams.pluginUrl + '' );	
 		}
 		else{
 			//Make image paths work with a greedy regex

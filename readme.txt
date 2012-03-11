@@ -3,7 +3,7 @@ Contributors: smartredfox
 Tags: download link, file listing, pdf, doc, xls, zip, file links
 Requires at least: 3.0.0
 Tested up to: 3.3.1
-Stable tag: 0.2
+Stable tag: 0.1
 
 The Pretty file list plugin lists files attached to a post, displays them, and pages them in an attractive format without you having to do any work. It’s designed to be very easy to use, and even comes with built in styles for different set ups.
 
