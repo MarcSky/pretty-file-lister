@@ -34,17 +34,13 @@ jQuery(function(jQuery) {
 		//If it contains a hash it's an alt style
 		if((jQuery('#show_pages').attr('value')).indexOf('#') > 0){
 			//Make image paths work with a greedy regex
-			//Uses "../i because we can't be sure if it will be images or img. 
-			//Also uses ../../../ to fix style pack icons
-			//Also looks for a bracket or quote to stop ../../ etc from matching
-			//This will not always work.
-			newData = data.replace( new RegExp( '"../i', 'g' ), '"' + prettylistScriptParams.altPluginUrl + 'i' );		
-			newData = data.replace( new RegExp( '\\(../i', 'g' ),'(' +  prettylistScriptParams.altPluginUrl + 'i' );		
-			newData = data.replace( new RegExp( '.../../../plugins/pretty-file-links/', 'g' ),'(' +  prettylistScriptParams.pluginUrl + '' );	
+			newData = data.replace( new RegExp( '\\(images', 'g' ),'(' +  prettylistScriptParams.altPluginUrl + 'images' );	
+			console.log(newData);
 		}
 		else{
 			//Make image paths work with a greedy regex
-			newData = data.replace( new RegExp( '../images/', 'g' ), prettylistScriptParams.pluginUrl + 'images/' );
+			newData = data.replace( new RegExp('\\(../images/', 'g'),'(' + prettylistScriptParams.pluginUrl + 'images/' );
+			console.log(newData);			
 		}
 		
 		//Empty and refill styles section

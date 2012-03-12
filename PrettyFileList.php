@@ -276,7 +276,7 @@ class PrettyFileListPlugin_Class{
 				<img src="http://www.smartredfox.com/wp-content/uploads/2012/02/All_styles-150x150.png" style="margin:5px;" />
 			</div>
 			<h2>Want more styles?</h2>
-			<p>Buy the Styles Pack (11 extra styles) for just $3.</p>
+			<p>Buy the Styles Pack (15 extra styles) for just $3.</p>
 			<p><a class="button-secondary" href="http://www.smartredfox.com/pretty-file-links-wordpress-plugin/style-pack-for-pretty-file-links/">Buy the pack now</a></p>
 			</div>
 			<div class="wrap">'.$message.
