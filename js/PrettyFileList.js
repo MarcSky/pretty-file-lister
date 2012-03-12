@@ -39,7 +39,7 @@ jQuery(function(jQuery) {
 		jQuery('.prettyPagination').append('<a href="#" class="prev disabled">&laquo; Prev</a>');
 		
 		//Next click
-		jQuery('.next',allFilesContainer).on('click',function()
+		jQuery('.next',allFilesContainer).click(function()
 		{
 			if(currentPage < totalPages){
 				currentPage++;
@@ -57,7 +57,7 @@ jQuery(function(jQuery) {
 		});
 		
 		//Prev click
-		jQuery('.prev',allFilesContainer).on('click',function()
+		jQuery('.prev',allFilesContainer).click(function()
 		{
 			//Check to see if on first page
 			if(currentPage != 1){

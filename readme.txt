@@ -3,7 +3,7 @@ Contributors: smartredfox
 Tags: download link, file listing, pdf, doc, xls, zip, file links
 Requires at least: 3.0.0
 Tested up to: 3.3.1
-Stable tag: 0.2
+Stable tag: 0.3
 
 The Pretty file list plugin lists files attached to a post, displays them, and pages them in an attractive format without you having to do any work. It’s designed to be very easy to use, and even comes with built in styles for different set ups.
 
@@ -36,7 +36,13 @@ Shortcode format is [prettyfilelist type="xls,pdf" filesperpage="5"]. Options fo
 * Added shortcode wizard to insert shortcode (FEATURE)
 * Now reads custom css files from a folder in your theme directory (stops files getting wiped after upgrade).
 
+= 0.3 =
+* Various small bugs fixed
+* Changed jquery calls to work with older versions
+
 == Upgrade Notice ==
 
 = 0.2 =
+If you are using the Style Pack you will need to [redownload it (Style Pack v0.3)](http://www.smartredfox.com/style-pack-download/) and install it into your theme directory.
+= 0.3 =
 If you are using the Style Pack you will need to [redownload it (Style Pack v0.3)](http://www.smartredfox.com/style-pack-download/) and install it into your theme directory.
