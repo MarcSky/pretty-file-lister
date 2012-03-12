@@ -2,7 +2,7 @@ jQuery(function(jQuery) {
 	/*Initial load*/
 	if(jQuery('#show_pages').attr('value') == '' || jQuery('#show_pages').attr('value') === undefined)
 	{	
-		jQuery.get(prettylistScriptParams.pluginUrl + '/styles/prettylist.css', updateImageUrls);
+		jQuery.get(prettylistScriptParams.pluginUrl + '/styles/prettylinks.css', updateImageUrls);
 	}
 	else
 	{
