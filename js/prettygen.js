@@ -11,7 +11,7 @@
 			ed.addCommand('mcebutton', function() {
 				ed.windowManager.open({
 					file : url.replace('/js','')+'/includes/button_popup.php', // file that contains HTML for our modal window
-					width : 220 + parseInt(ed.getLang('button.delta_width', 0)), // size of our window
+					width : 260 + parseInt(ed.getLang('button.delta_width', 0)), // size of our window
 					height : 240 + parseInt(ed.getLang('button.delta_height', 0)), // size of our window
 					inline : 1
 				}, {
