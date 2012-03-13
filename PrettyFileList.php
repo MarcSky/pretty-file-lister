@@ -239,7 +239,6 @@ class PrettyFileListPlugin_Class{
 	function srf_prettylist_frontend_scripts(){
 	 //Localize and script enqueue done in shortcode so we can get attributes
 	  wp_register_script('prettylistjs', PRETTY_FILE_LIST_URL . '/js/PrettyFileList.js');
-	  //wp_localize_script('prettylistjs', 'prettylistScriptParams', $params );
 	}
 	
 	/**********************
@@ -344,58 +343,7 @@ class PrettyFileListPlugin_Class{
 	   return $plugin_array;  
 	} 
 	
-	/*************************
-	UPGRADE FUNCTIONALITY TO SAVE STYLE PACK
-	**************************/
-	function hpt_copyr($source, $dest) 
-	{
-		// Check for symlinks
-		if (is_link($source)) { 
-			return symlink(readlink($source), $dest); 
-		}
- 
-		// Simple copy for a file 
-		if (is_file($source)) {
-			return copy($source, $dest); 
-		} 
-
-		// Make destination directory
-		if (!is_dir($dest)) {
-			mkdir($dest);   
-		}
- 
-		// Loop through the folder
-		$dir = dir($source);
-		while (false !== $entry = $dir->read()) {
-			// Skip pointers
-			if ($entry == '.' || $entry == '..') {
-				continue;
-			}
-
-			// Deep copy directories
-			$this->hpt_copyr("$source/$entry", "$dest/$entry");
-		}
-
-		// Clean up
-		$dir->close();
-		return true;
-	}
 	
-	function hpt_backup()
-	{
-			$from = PRETTY_FILE_LIST_PATH."styles/";
-			$to = WP_CONTENT_DIR."/uploads/prettystyles/"; 
-			$this->hpt_copyr($from, $to);
-	}
-	function hpt_recover()
-	{		
-			$from = WP_CONTENT_DIR."/uploads/prettystyles/";
-			$to = PRETTY_FILE_LIST_PATH."styles/";			
-			$this->hpt_copyr($from, $to);
-			if (is_dir($from)) {
-				rmdir($from);
-			}
-	}	
 }  
   
 //Engage.  
