@@ -24,9 +24,6 @@ jQuery(function(jQuery) {
 		else{
 			jQuery.get(prettylistScriptParams.pluginUrl + '/styles/' + jQuery('#show_pages').attr('value'), updateImageUrls);
 		}
-	
-		//Load styles
-		//jQuery.get(prettylistScriptParams.pluginUrl + '/styles/' + jQuery(this).attr('value'), updateImageUrls);
 	});
 	
 	//Make image paths work in the previewer
@@ -35,12 +32,10 @@ jQuery(function(jQuery) {
 		if((jQuery('#show_pages').attr('value')).indexOf('#') > 0){
 			//Make image paths work with a greedy regex
 			newData = data.replace( new RegExp( '\\(images', 'g' ),'(' +  prettylistScriptParams.altPluginUrl + 'images' );	
-			console.log(newData);
 		}
 		else{
 			//Make image paths work with a greedy regex
-			newData = data.replace( new RegExp('\\(../images/', 'g'),'(' + prettylistScriptParams.pluginUrl + 'images/' );
-			console.log(newData);			
+			newData = data.replace( new RegExp('\\(../images/', 'g'),'(' + prettylistScriptParams.pluginUrl + 'images/' );		
 		}
 		
 		//Empty and refill styles section

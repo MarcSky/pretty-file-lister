@@ -10,7 +10,6 @@ jQuery(function(jQuery) {
 	//Total pages	
 	var totalPages = Math.ceil(allFiles.length / (pageAt + 1));
 	
-	
 	var i = 0;//First array counter
 	var x = 0;//Second array counter
 	var pages = [];

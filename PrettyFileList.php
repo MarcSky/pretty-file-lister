@@ -3,7 +3,7 @@
    Plugin Name: Pretty file list
    Plugin URI: http://www.smartredfox.com/prettylist
    Description: A plugin that lists files attached to the current post/page.
-   Version: 0.3
+   Version: 0.4
    Author: James Botham
    Author URI: http://www.smartredfox.com
    License: GPL2
