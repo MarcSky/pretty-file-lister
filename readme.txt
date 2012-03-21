@@ -19,6 +19,17 @@ Shortcode format is [prettyfilelist type="xls,pdf" filesperpage="5"]. Options fo
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Configure the plugin styles by going to the Pretty File Lister option under settings in your admin menu.
 
+== Usage ==
+
+1. Go to the the post/page you want to display the Pretty file list on.
+2. Upload the files you want to list using the Media Uploader (the same way you would with images).
+3. Make sure to give the uploaded files sensible titles as these will be used by the list.
+4. Close the media uploader modal.
+5. Click the Pretty File List button and Choose your options - this will insert a Shortcode into your content.
+6. Save your post/page.
+
+That's it. You should now have a paged list of all of the attached files sorted by creation date.
+
 == Screenshots ==
 
 1. The Pretty file list plugin showing attached Excel files.
