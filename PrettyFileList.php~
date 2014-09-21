@@ -7,8 +7,6 @@
    Author: James Botham
    Author URI: http://www.smartredfox.com
    License: GPL2
-   Fix module: Gogohia Levan
-   Email: levangogohia@yandex.ru
    */
 class PrettyFileListPlugin_Class{  
   
@@ -141,10 +139,10 @@ class PrettyFileListPlugin_Class{
 			$typeString .= "application/vnd.ms-excel";  
 			break;
 		  case "doc":
-			$typeString .= "doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword";
+			$typeString .= "doc";
 			break;
 		  case "ppt":
-			$typeString .= "application/mspowerpnt,application/vnd-mspowerpoint,application/powerpoint,application/x-powerpoint,application/vnd.ms-powerpoint,application/mspowerpoint,application/ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+			$typeString .= "application/mspowerpnt,application/vnd-mspowerpoint,application/powerpoint,application/x-powerpoint,application/vnd.ms-powerpoint,application/mspowerpoint,application/ms-powerpoint";
 			break;      
 		  case "zip":
 			$typeString .= "application/zip,application/x-zip,application/x-zip-compressed,application/x-compress,application/x-compressed,multipart/x-zip";
@@ -191,7 +189,6 @@ class PrettyFileListPlugin_Class{
 		  case "application/vnd.ms-powerpoint":
 		  case "application/mspowerpoint":
 		  case "application/ms-powerpoint":
-                  case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
 			$type = "ppt";
 			break;      
 		  case "application/zip":
